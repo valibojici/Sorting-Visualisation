@@ -38,8 +38,9 @@ class Column:
 def get_random_nums():
     nums = [round(x * (HEIGHT / no_cols), 1) for x in range(1,no_cols+1)]
     random.shuffle(nums)
-    return [Column(idx,num) for idx,num in enumerate(nums)]
 
+    return [Column(idx,num) for idx,num in enumerate(nums)]
+    # hello
 
 def bubble_sort(nums):
     for i in range(len(nums)-1):
