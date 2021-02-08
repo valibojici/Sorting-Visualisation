@@ -1,3 +1,3 @@
 SCREEN_W = 600
 SCREEN_H = 400
-COL_W = 20
+COL_W = 4
