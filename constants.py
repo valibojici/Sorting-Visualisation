@@ -5,7 +5,7 @@ SCREEN_W = 1200
 SCREEN_H = 600
 FPS = 30
 COL_NO = 300
-COL_W = round(SCREEN_W / COL_NO,5)
+COL_W = round(SCREEN_W / COL_NO,4)
 
 
 FONT = pg.font.SysFont("Arial.ttf",50)

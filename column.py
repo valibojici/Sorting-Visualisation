@@ -1,6 +1,7 @@
 import constants as c
 import pygame as pg
 import random
+from math import floor,ceil
 
 pg.init()
 
@@ -22,7 +23,7 @@ class Column:
         '''Draws self on surface'''
         column = pg.Rect(
             self.index*c.COL_W,c.SCREEN_H - self.value,
-            c.COL_W-1.5,self.value+1
+            c.COL_W-1,self.value+1
             )
         color = color if color is not None else self.color
         if self.highlight:
@@ -42,7 +43,7 @@ class Column:
     @classmethod
     def get_uniform_cols(cls,size):
         '''Get shuffled list of columns with constant increment'''
-        incr = round((c.SCREEN_H - 1) / (size - 1),1)
+        incr = round((c.SCREEN_H - 1) / (size - 1),3)
         aux = [1 + round(incr*i,1) for i in range(size)]
         random.shuffle(aux)
         return [Column(idx,x) for idx,x in enumerate(aux)]

@@ -119,8 +119,8 @@ def gui_draw():
         if click_down:
             elem_slider.update_mouse(pg.mouse.get_pos())
             c.COL_NO = elem_slider.get_value()
-            c.COL_W = round(c.SCREEN_W / c.COL_NO,5)
-
+            c.COL_W = round(c.SCREEN_W / c.COL_NO,4)
+            print(c.COL_W)
         pg.display.flip()
         main_clock.tick(60)
 
