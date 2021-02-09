@@ -4,7 +4,7 @@ pg.init()
 SCREEN_W = 1200
 SCREEN_H = 600
 FPS = 30
-COL_NO = 200
+COL_NO = 300
 COL_W = round(SCREEN_W / COL_NO,5)
 
 
@@ -21,5 +21,5 @@ SORT_TEXT = [
 SPEED_TEXT = FONT.render('Speed', True, (255,255,255))
 NUMBER_TEXT = FONT.render('Number of elements', True, (255,255,255))
 
-def GET_TEXT(number):
-    return FONT.render(str(number), True, (255,255,255))
+def GET_TEXT(val):
+    return FONT.render(str(val), True, (255,255,255))
