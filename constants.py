@@ -20,6 +20,6 @@ SORT_TEXT = [
 
 SPEED_TEXT = FONT.render('Speed', True, (255,255,255))
 NUMBER_TEXT = FONT.render('Number of elements', True, (255,255,255))
-SPEED_VAL = {
-    val : FONT.render(str(1 if val == 0 else val) + " FPS", True, (255,255,255)) for val in range(0,401,10)
-}
+
+def GET_TEXT(number):
+    return FONT.render(str(number), True, (255,255,255))

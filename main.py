@@ -38,25 +38,55 @@ def triangle_collide_point(t_coords,p_coords):
     return abs(t_area - (area1 + area2 + area3)) < 1
 
 
+class Slider:
+    def __init__(self,left,top,width,height,min_val,max_val,default_value=0,increment=1):
+        self.left = left
+        self.top = top
+        self.width = width
+        self.height = height
+        self.line_width = height / 8
+        self.rect_bound = pg.Rect(left,top,width,height)
+        self.center = self.rect_bound.center
+        self.line = pg.Rect(left,top+self.height/2-self.line_width/2,width,self.line_width)
+        self.circle_center = (default_value if default_value else left + width / 2, self.line.center[1])
+    
+    def draw(self,surface):
+        pg.draw.rect(surface,(255,255,255),self.line)
+        pg.draw.circle(surface,(255,255,255),self.circle_center,self.height / 2)
+
+    def debug(self,surface):
+        pg.draw.rect(surface,(255,255,255),self.rect_bound,1)
+
+    def update_mouse(self,coords):
+        if not self.rect_bound.collidepoint(pg.mouse.get_pos()):
+            print('no collision')
+            return
+        print('collision')
+
+
+
+
 def gui_draw():
     text_idx = 0
     click = False
     click_down = False
-    left_triangle = [(400,20),(400,50),(375,35)]
-    right_triangle = [(800,20),(800,50),(825,35)]
+    
+    # circle on line
+    circle_center = (400 if c.FPS == 1 else c.FPS+400,0)
+
 
     # speed line
-    line = pg.Rect(400,170,400,4)
-    # rect containing line
-    circle_rect = pg.Rect(400,170,420,40)
-    circle_rect.center = line.center
-    # circle on line
-    circle_center = (400 if c.FPS == 1 else c.FPS+400,line.center[1])
+
+    x = Slider(400,400, 400, 30, 1, 400)
 
     while True:
         screen.fill((0,0,0))
+
+        # x.debug(screen)
+        x.draw(screen)
+
         click = False
-        print(c.FPS,circle_center)
+        # print(c.FPS,circle_center)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -69,8 +99,10 @@ def gui_draw():
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 return
         # draw left triangle
+        left_triangle = [(400,20),(400,50),(375,35)]
         pg.draw.polygon(screen,(255,255,255),left_triangle)
         # draw right triangle
+        right_triangle = [(800,20),(800,50),(825,35)]
         pg.draw.polygon(screen,(255,255,255),right_triangle)
         
         # check for triangle click and update text_idx
@@ -90,26 +122,45 @@ def gui_draw():
         text_w = text.get_size()[0]
         screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 100))
 
+        line = pg.Rect(400,170,400,4)
+        # rect containing line
+        circle_rect = pg.Rect(400,170,420,40)
+        circle_rect.center = line.center
+        circle_center = (circle_center[0],line.center[1])
+
         # draw line
         pg.draw.rect(screen,(255,255,255),line)
         # draw speed value
-        text = c.SPEED_VAL[circle_center[0] - 400]
+        text = c.GET_TEXT(max(1,circle_center[0] - 400))
         text_h = text.get_size()[1]
         screen.blit(text,(830,line.center[1] - text_h / 2))
 
         
         # check for line collision
+        if click_down:
+            x.update_mouse(pg.mouse.get_pos())
+
+
         if click_down and circle_rect.collidepoint(pg.mouse.get_pos()):
             m_w  = round(round(pg.mouse.get_pos()[0]) / 10) * 10
             if 400 <= m_w <= 800:
-                circle_center = (m_w,circle_rect.center[1])
-
+                circle_center = (m_w,line.center[1])
+            # set new fps
             c.FPS = circle_center[0] - 400
             if c.FPS == 0:
                 c.FPS = 1
         
-        # draw circle
+        # draw circle on speed line
         pg.draw.circle(screen,(255,255,255),circle_center,15)
+
+        # draw number of elements text
+        text = c.NUMBER_TEXT
+        text_w = text.get_size()[0]
+        screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 250))
+
+        # draw number of elements line
+        line = pg.Rect(400,400,400,4)
+        line.center = (line.center[0],text.get_size()[1])
 
         pg.display.flip()
         main_clock.tick(30)
@@ -130,4 +181,4 @@ while True:
     
     update_cols_and_draw(cols,gen,screen)
     pg.display.flip()
-    main_clock.tick(c.FPS)
+    main_clock.tick(c.FPS) 
