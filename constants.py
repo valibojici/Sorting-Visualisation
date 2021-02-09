@@ -1,3 +1,4 @@
 SCREEN_W = 600
 SCREEN_H = 400
-COL_W = 4
+COL_NO = 150
+COL_W = round(SCREEN_W / COL_NO,5)

@@ -22,7 +22,7 @@ class Column:
         '''Draws self on surface'''
         column = pg.Rect(
             self.index*c.COL_W,c.SCREEN_H - self.value,
-            c.COL_W-1,self.value+1
+            c.COL_W-1.5,self.value+1
             )
         color = color if color is not None else self.color
         if self.highlight:
