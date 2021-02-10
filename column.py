@@ -7,13 +7,13 @@ pg.init()
 
 class Column:
     '''Class for column shapes'''
-    def __init__(self,index,value,color=(255,255,255)):
+    def __init__(self,value,color=(255,255,255)):
         self.value = value
         self.color = color
         self.highlight = False
 
     def __repr__(self):
-        return f'Column({self.index},{self.value},{self.color})'
+        return f'Column({self.value},{self.color})'
 
     def __lt__(self,other):
         return self.value < other.value
@@ -28,21 +28,17 @@ class Column:
         if self.highlight:
             color = (0,255,0)
         pg.draw.rect(surface,color,column)
-
-    def swap(self,other):
-        '''Swaps value with other'''
-        self.value, other.value = other.value, self.value
-
+    def swap_value(self,other):
+        self.value,other.value = other.value, self.value
     @classmethod
     def get_random_cols(cls,min_val,max_val,size):
         '''Get list of columns with random values'''
-        aux = [random.randint(min_val,max_val) for _ in range(size)]
-        return [Column(idx,val) for idx,val in enumerate(aux)]
+        return [Column(val) for val in [random.randint(min_val,max_val) for _ in range(size)]]
 
     @classmethod
     def get_uniform_cols(cls,size):
         '''Get shuffled list of columns with constant increment'''
-        incr = round((c.SCREEN_H - 1) / (size - 1),3)
-        aux = [1 + round(incr*i,1) for i in range(size)]
+        incr = round((c.SCREEN_H - 10) / (size - 1),3)
+        aux = [10 + round(incr*i,1) for i in range(size)]
         random.shuffle(aux)
-        return [Column(idx,x) for idx,x in enumerate(aux)]
+        return [Column(val) for val in aux]

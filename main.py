@@ -17,8 +17,8 @@ gen = None
 
 def update_cols_and_draw(surface,collumns,generator):
     if collumns is not None:
-        for collumn in collumns:
-            collumn.draw(surface)
+        for idx,collumn in enumerate(collumns):
+            collumn.draw(surface,idx)
         try:
             collumns = next(generator)
         except StopIteration:
@@ -41,7 +41,7 @@ def triangle_collide_point(t_coords,p_coords):
 
 def menu():
     global cols,gen,screen
-    text_idx = 0
+    sort_gen_idx = 0
     click = False
     click_down = False
     
@@ -68,8 +68,8 @@ def menu():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN:
                     cols = Column.get_uniform_cols(c.COL_NO)
-                    gen = sorting.bubblesort_gen(cols)
-                    visualize(screen,cols,gen)
+                    gen = sorting.sort_gen[sort_gen_idx](cols,0,len(cols)-1)
+                    visualize(screen,cols,gen,sort_gen_idx)
         # draw left triangle
         left_triangle = [(400,20),(400,50),(375,35)]
         pg.draw.polygon(screen,(255,255,255),left_triangle)
@@ -77,14 +77,14 @@ def menu():
         right_triangle = [(800,20),(800,50),(825,35)]
         pg.draw.polygon(screen,(255,255,255),right_triangle)
         
-        # check for triangle click and update text_idx
+        # check for triangle click and update sort_gen_idx
         if click and triangle_collide_point(left_triangle,pg.mouse.get_pos()):
-            text_idx = text_idx - 1 if text_idx >= 0 else len(c.SORT_TEXT) - 1
+            sort_gen_idx = sort_gen_idx - 1 if sort_gen_idx >= 0 else len(c.SORT_TEXT) - 1
         elif click and triangle_collide_point(right_triangle,pg.mouse.get_pos()):
-            text_idx = text_idx + 1 if text_idx < len(c.SORT_TEXT) - 1 else 0
+            sort_gen_idx = sort_gen_idx + 1 if sort_gen_idx < len(c.SORT_TEXT) - 1 else 0
         
         # get "sorting" text
-        text = c.SORT_TEXT[text_idx]
+        text = c.SORT_TEXT[sort_gen_idx]
         text_w = text.get_size()[0]
         # blit "sorting" text to screen
         screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 20))
@@ -136,7 +136,7 @@ def menu():
         pg.display.flip()
         main_clock.tick(60)
 
-def visualize(screen,cols,gen):
+def visualize(screen,cols,gen,idx_sort):
     while True:
         screen.fill((0,0,0))
         for event in pg.event.get():
@@ -146,7 +146,7 @@ def visualize(screen,cols,gen):
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     cols = Column.get_uniform_cols(c.COL_NO)
-                    gen = sorting.bubblesort_gen(cols)
+                    gen = sorting.sort_gen[idx_sort](cols,0,c.COL_NO-1)
                 if event.button == 4: c.FPS = min(c.FPS * 2, 200)
                 if event.button == 5: c.FPS = max(c.FPS // 2, 1)
             elif event.type == pg.KEYDOWN:
