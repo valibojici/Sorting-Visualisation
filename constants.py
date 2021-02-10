@@ -20,6 +20,6 @@ SORT_TEXT = [
 
 SPEED_TEXT = FONT.render('Speed', True, (255,255,255))
 NUMBER_TEXT = FONT.render('Number of elements', True, (255,255,255))
-
+COMPARE_TEXT = FONT.render('Compare', True, (255,255,255))
 def GET_TEXT(val):
     return FONT.render(str(val), True, (255,255,255))

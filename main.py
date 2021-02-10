@@ -15,14 +15,14 @@ cols = None
 gen = None
 
 
-def update_cols_and_draw(collumns,generator,surface):
+def update_cols_and_draw(surface,collumns,generator):
     if collumns is not None:
+        for collumn in collumns:
+            collumn.draw(surface)
         try:
             collumns = next(generator)
         except StopIteration:
             pass
-        for collumn in collumns:
-            collumn.draw(surface)
 
 def triangle_collide_point(t_coords,p_coords):
     # point is inside the triangle if area
@@ -38,13 +38,15 @@ def triangle_collide_point(t_coords,p_coords):
     area3 = area(t_coords[0],t_coords[2],p_coords)
     return abs(t_area - (area1 + area2 + area3)) < 1
 
-def gui_draw():
+
+def menu():
+    global cols,gen,screen
     text_idx = 0
     click = False
     click_down = False
     
     # speed slider
-    speed_slider = Slider(400,170, 400, 30, 0, 200,c.FPS,1)
+    speed_slider = Slider(400,170, 400, 30, 0, 200,c.FPS,5)
     # number of elements slider
     elem_slider = Slider(400,320,400,30,5,300,c.COL_NO,5)
 
@@ -58,13 +60,16 @@ def gui_draw():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
-            if event.type == pg.MOUSEBUTTONDOWN and pg.mouse.get_pressed()[0]:
+            elif event.type == pg.MOUSEBUTTONDOWN and pg.mouse.get_pressed()[0]:
                 click = True
                 click_down = True
-            if event.type == pg.MOUSEBUTTONUP:
+            elif event.type == pg.MOUSEBUTTONUP:
                 click_down = False
-            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                return
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_RETURN:
+                    cols = Column.get_uniform_cols(c.COL_NO)
+                    gen = sorting.bubblesort_gen(cols)
+                    visualize(screen,cols,gen)
         # draw left triangle
         left_triangle = [(400,20),(400,50),(375,35)]
         pg.draw.polygon(screen,(255,255,255),left_triangle)
@@ -108,6 +113,12 @@ def gui_draw():
         text_h = text.get_size()[1]
         screen.blit(text,(830,elem_slider.center[1] - text_h / 2))
 
+        # get "compare" text
+        text = c.COMPARE_TEXT
+        # blit "compare" text to screen
+        text_w = text.get_size()[0]
+        screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 400))
+
         # draw speed slider and check for updates to slider
         speed_slider.draw(screen)
         if click_down:
@@ -120,27 +131,30 @@ def gui_draw():
             elem_slider.update_mouse(pg.mouse.get_pos())
             c.COL_NO = elem_slider.get_value()
             c.COL_W = round(c.SCREEN_W / c.COL_NO,4)
-            print(c.COL_W)
+
+        
         pg.display.flip()
         main_clock.tick(60)
 
+def visualize(screen,cols,gen):
+    while True:
+        screen.fill((0,0,0))
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+            elif event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    cols = Column.get_uniform_cols(c.COL_NO)
+                    gen = sorting.bubblesort_gen(cols)
+                if event.button == 4: c.FPS = min(c.FPS * 2, 200)
+                if event.button == 5: c.FPS = max(c.FPS // 2, 1)
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    return
+        update_cols_and_draw(screen,cols,gen)
+        pg.display.flip()
+        
+        main_clock.tick(c.FPS) 
 
-while True:
-    screen.fill((0,0,0))
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            pg.quit()
-            sys.exit()
-        if event.type == pg.MOUSEBUTTONDOWN:
-            if pg.mouse.get_pressed()[0]:
-                gui_draw()
-                cols = Column.get_uniform_cols(c.COL_NO)
-                # gen = sorting.quicksort_gen(cols,0,c.COL_NO-1)
-                gen = sorting.bubblesort_gen(cols)
-        if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 4: c.FPS = min(c.FPS * 2, 200)
-            if event.button == 5: c.FPS = max(c.FPS // 2, 1)
-    update_cols_and_draw(cols,gen,screen)
-    pg.display.flip()
-    
-    main_clock.tick(c.FPS) 
+menu()

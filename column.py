@@ -9,7 +9,6 @@ class Column:
     '''Class for column shapes'''
     def __init__(self,index,value,color=(255,255,255)):
         self.value = value
-        self.index = index
         self.color = color
         self.highlight = False
 
@@ -19,10 +18,10 @@ class Column:
     def __lt__(self,other):
         return self.value < other.value
 
-    def draw(self,surface,color=None):
+    def draw(self,surface,index,color=None):
         '''Draws self on surface'''
         column = pg.Rect(
-            self.index*c.COL_W,c.SCREEN_H - self.value,
+            index*c.COL_W,c.SCREEN_H - self.value,
             c.COL_W-1,self.value+1
             )
         color = color if color is not None else self.color
