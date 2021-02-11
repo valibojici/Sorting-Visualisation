@@ -8,8 +8,6 @@ from slider import Slider
 pg.init()
 main_clock = pg.time.Clock()
 
-
-
 def update_cols_and_draw(surface,collumns,generator):
     if collumns is not None:
         for idx,collumn in enumerate(collumns):
@@ -40,16 +38,16 @@ def menu():
     cols = None
     # generator for sorting states
     gen = None
-    
+
     sort_gen_idx = 0
     click = False
     click_down = False
     
     # speed slider
-    speed_slider = Slider(400,170, 400, 30, 0, 200,c.FPS,5)
+    speed_slider = Slider(400,170, 400, 30, min_val=0, max_val=200,start=c.FPS,step=5)
     # number of elements slider
-    elem_slider = Slider(400,320,400,30,5,300,c.COL_NO,5)
-
+    # elem_slider = Slider(400,320,400,30,min_val=5,max_val=300,start=c.COL_NO,step=5)
+    elem_slider = Slider(400,320,400,30,values=[x for x in range(4,301) if c.SCREEN_W % x == 0])
     while True:
         screen.fill((0,0,0))
 
@@ -113,11 +111,11 @@ def menu():
         text_h = text.get_size()[1]
         screen.blit(text,(830,elem_slider.center[1] - text_h / 2))
 
-        # get "compare" text
-        text = c.COMPARE_TEXT
-        # blit "compare" text to screen
-        text_w = text.get_size()[0]
-        screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 400))
+        # # get "compare" text
+        # text = c.COMPARE_TEXT
+        # # blit "compare" text to screen
+        # text_w = text.get_size()[0]
+        # screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 400))
 
         # draw speed slider and check for updates to slider
         speed_slider.draw(screen)
@@ -130,7 +128,7 @@ def menu():
         if click_down:
             elem_slider.update_mouse(pg.mouse.get_pos())
             c.COL_NO = elem_slider.get_value()
-            c.COL_W = round(c.SCREEN_W / c.COL_NO,4)
+            c.COL_W = c.SCREEN_W // c.COL_NO
 
         
         pg.display.flip()

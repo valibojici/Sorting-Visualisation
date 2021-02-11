@@ -22,12 +22,13 @@ class Column:
         '''Draws self on surface'''
         column = pg.Rect(
             index*c.COL_W,c.SCREEN_H - self.value,
-            c.COL_W-1,self.value+1
+            c.COL_W-1,self.value+1,
             )
         color = color if color is not None else self.color
         if self.highlight:
             color = (0,255,0)
         pg.draw.rect(surface,color,column)
+
     def swap_value(self,other):
         self.value,other.value = other.value, self.value
     @classmethod
@@ -38,7 +39,8 @@ class Column:
     @classmethod
     def get_uniform_cols(cls,size):
         '''Get shuffled list of columns with constant increment'''
-        incr = round((c.SCREEN_H - 10) / (size - 1),3)
-        aux = [10 + round(incr*i,1) for i in range(size)]
+        incr = int(c.SCREEN_H/ size)
+        aux = [incr*i for i in range(1,size+1)]
         random.shuffle(aux)
         return [Column(val) for val in aux]
+        

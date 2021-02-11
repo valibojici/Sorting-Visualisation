@@ -15,11 +15,13 @@ SORT_TEXT = [
     FONT.render('Selection Sort', True, (255,255,255)),
     FONT.render('Insertion Sort', True, (255,255,255)),
     FONT.render('Quick Sort', True, (255,255,255)),
-    FONT.render('Merge Sort', True, (255,255,255))
+    FONT.render('Merge Sort', True, (255,255,255)),
+    FONT.render('Heap Sort', True, (255,255,255)),
+    FONT.render('Radix Sort', True, (255,255,255))
 ]
 
 SPEED_TEXT = FONT.render('Speed', True, (255,255,255))
 NUMBER_TEXT = FONT.render('Number of elements', True, (255,255,255))
-COMPARE_TEXT = FONT.render('Compare', True, (255,255,255))
+# COMPARE_TEXT = FONT.render('Compare', True, (255,255,255))
 def GET_TEXT(val):
     return FONT.render(str(val), True, (255,255,255))
