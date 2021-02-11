@@ -7,12 +7,7 @@ from slider import Slider
 
 pg.init()
 main_clock = pg.time.Clock()
-screen = pg.display.set_mode((c.SCREEN_W,c.SCREEN_H))
 
-# list of collumns
-cols = None
-# generator for sorting states
-gen = None
 
 
 def update_cols_and_draw(surface,collumns,generator):
@@ -36,11 +31,16 @@ def triangle_collide_point(t_coords,p_coords):
     area1 = area(t_coords[0],t_coords[1],p_coords)
     area2 = area(t_coords[1],t_coords[2],p_coords)
     area3 = area(t_coords[0],t_coords[2],p_coords)
-    return abs(t_area - (area1 + area2 + area3)) < 1
+    return abs(t_area - (area1 + area2 + area3)) < 300
 
 
 def menu():
-    global cols,gen,screen
+    screen = pg.display.set_mode((c.SCREEN_W,c.SCREEN_H))
+    # list of collumns
+    cols = None
+    # generator for sorting states
+    gen = None
+    
     sort_gen_idx = 0
     click = False
     click_down = False
