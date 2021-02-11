@@ -1,5 +1,4 @@
 import pygame as pg
-from math import ceil,floor
 pg.init()
 
 class Slider:

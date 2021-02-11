@@ -1,7 +1,6 @@
 import constants as c
 import pygame as pg
 import random
-from math import floor,ceil
 
 pg.init()
 
