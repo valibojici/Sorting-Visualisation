@@ -47,7 +47,7 @@ def menu():
     speed_slider = Slider(400,170, 400, 30, min_val=0, max_val=200,start=c.FPS,step=5)
     # number of elements slider
     # elem_slider = Slider(400,320,400,30,min_val=5,max_val=300,start=c.COL_NO,step=5)
-    elem_slider = Slider(400,320,400,30,values=[x for x in range(4,301) if c.SCREEN_W % x == 0])
+    elem_slider = Slider(400,320,400,30,values=[x for x in range(4,601) if c.SCREEN_W % x == 0])
     while True:
         screen.fill((0,0,0))
 

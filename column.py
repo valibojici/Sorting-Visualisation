@@ -39,7 +39,7 @@ class Column:
     @classmethod
     def get_uniform_cols(cls,size):
         '''Get shuffled list of columns with constant increment'''
-        incr = int(c.SCREEN_H/ size)
+        incr = (c.SCREEN_H/ size)
         aux = [incr*i for i in range(1,size+1)]
         random.shuffle(aux)
         return [Column(val) for val in aux]

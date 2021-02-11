@@ -3,8 +3,8 @@ pg.init()
 
 SCREEN_W = 1200
 SCREEN_H = 600
-FPS = 5
-COL_NO = 10
+FPS = 30
+COL_NO = 100
 COL_W = round(SCREEN_W / COL_NO,4)
 
 
