@@ -128,20 +128,24 @@ def heapsort_gen(columns,lo,hi):
 
 
 def radixsort_gen(columns,lo,hi):
+    for col in columns:
+        col.value = round(col.value)
+    POWER = 4
+    BASE = 2 ** POWER
     count = []
     output = [0 for _ in range(len(columns))]
     shift = steps = 0
-    while shift < 4:
-        count = [0 for _ in range(256)]
+    while shift < 32 // POWER:
+        count = [0 for _ in range(BASE)]
 
         for i in range(lo,hi+1):
-            count[(columns[i].value >> steps) & 255] += 1
+            count[(columns[i].value >> steps) & (BASE - 1)] += 1
 
-        for i in range(1,256):
+        for i in range(1,BASE):
             count[i] += count[i-1]
 
         for i in range(hi,lo-1,-1):
-            index = (columns[i].value >> steps) & 255
+            index = (columns[i].value >> steps) & (BASE - 1)
             output[count[index]-1] = columns[i].value
             count[index] -= 1
 
@@ -149,7 +153,7 @@ def radixsort_gen(columns,lo,hi):
             columns[i].value = output[i]
             yield columns
         shift += 1
-        steps += 8
+        steps += POWER
 
 
 sort_gen = [bubblesort_gen,
