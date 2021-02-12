@@ -23,10 +23,7 @@ class Column:
             index*c.COL_W,c.SCREEN_H - self.value,
             c.COL_W-1,self.value+1,
             )
-        color = color if color is not None else self.color
-        if self.highlight:
-            color = (0,255,0)
-        pg.draw.rect(surface,color,column)
+        pg.draw.rect(surface,color if color else self.color,column)
 
     def swap_value(self,other):
         self.value,other.value = other.value, self.value
