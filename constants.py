@@ -8,7 +8,7 @@ COL_NO = 100
 COL_W = round(SCREEN_W / COL_NO,4)
 
 
-FONT = pg.font.SysFont("Arial.ttf",50)
+FONT = pg.font.SysFont("Arial.ttf",45)
 
 SORT_TEXT = [
     FONT.render('Bubble Sort', True, (255,255,255)),
@@ -17,7 +17,8 @@ SORT_TEXT = [
     FONT.render('Quick Sort', True, (255,255,255)),
     FONT.render('Merge Sort', True, (255,255,255)),
     FONT.render('Heap Sort', True, (255,255,255)),
-    FONT.render('Radix Sort', True, (255,255,255))
+    FONT.render('Radix Sort (LSD base 64)', True, (255,255,255)),
+    FONT.render('Radix Sort (LSD base 10)', True, (255,255,255))
 ]
 
 SPEED_TEXT = FONT.render('Speed', True, (255,255,255))
