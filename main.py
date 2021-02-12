@@ -77,7 +77,7 @@ def menu():
         
         # check for triangle click and update sort_gen_idx
         if click and triangle_collide_point(left_triangle,pg.mouse.get_pos()):
-            sort_gen_idx = sort_gen_idx - 1 if sort_gen_idx >= 0 else len(c.SORT_TEXT) - 1
+            sort_gen_idx = sort_gen_idx - 1 if sort_gen_idx > 0 else len(c.SORT_TEXT) - 1
         elif click and triangle_collide_point(right_triangle,pg.mouse.get_pos()):
             sort_gen_idx = sort_gen_idx + 1 if sort_gen_idx < len(c.SORT_TEXT) - 1 else 0
         
@@ -145,11 +145,15 @@ def visualize(screen,cols,gen,idx_sort):
                 if event.button == 1:
                     cols = Column.get_uniform_cols(c.COL_NO)
                     gen = sorting.sort_gen[idx_sort](cols,0,c.COL_NO-1)
-                if event.button == 4: c.FPS = min(c.FPS * 2, 200)
-                if event.button == 5: c.FPS = max(c.FPS // 2, 1)
+                if event.button == 4: 
+                    if c.FPS == 0: c.FPS = 1
+                    else: c.FPS = min(c.FPS * 2, 200)
+                if event.button == 5: 
+                    c.FPS = c.FPS // 2
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     return
+        if c.FPS == 0: continue
         update_cols_and_draw(screen,cols,gen)
         pg.display.flip()
         
