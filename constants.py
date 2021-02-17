@@ -23,6 +23,14 @@ SORT_TEXT = [
 
 SPEED_TEXT = FONT.render('Speed', True, (255,255,255))
 NUMBER_TEXT = FONT.render('Number of elements', True, (255,255,255))
+INSTRUC_TEXT = [
+    FONT.render('Press Enter to start.',True,(255,255,255)),
+    FONT.render('While visualising:',True,(255,255,255)),
+    FONT.render('Left click to reset.',True,(200,255,155)),
+    FONT.render('Mouse wheel to adjust fps.',True,(200,255,155)),
+    FONT.render('Escape to go back.',True,(200,255,155))
+    
+]
 # COMPARE_TEXT = FONT.render('Compare', True, (255,255,255))
 def GET_TEXT(val):
     return FONT.render(str(val), True, (255,255,255))
