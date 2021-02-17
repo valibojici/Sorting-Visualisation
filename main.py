@@ -117,6 +117,12 @@ def menu():
         # text_w = text.get_size()[0]
         # screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 400))
 
+        # # get "instructions" text
+        textList = c.INSTRUC_TEXT
+        for offset,text in enumerate(textList):
+            text_w = text.get_size()[0]
+            screen.blit(text,(c.SCREEN_W / 2 - text_w / 2, 380 + 40 * offset))
+
         # draw speed slider and check for updates to slider
         speed_slider.draw(screen)
         if click_down:
