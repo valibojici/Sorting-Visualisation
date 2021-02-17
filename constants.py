@@ -29,7 +29,6 @@ INSTRUC_TEXT = [
     FONT.render('Left click to reset.',True,(200,255,155)),
     FONT.render('Mouse wheel to adjust fps.',True,(200,255,155)),
     FONT.render('Escape to go back.',True,(200,255,155))
-    
 ]
 # COMPARE_TEXT = FONT.render('Compare', True, (255,255,255))
 def GET_TEXT(val):
